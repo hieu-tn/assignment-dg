@@ -1,3 +1,6 @@
+$argon2id$v=19$m=65536,t=3,p=4$5gz8jVUtww1ZHEDSX1AfbA$k7Oek3tc+PoWQmykV/Q+lxkZwB1T9TewblFJKiTS0vs
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>

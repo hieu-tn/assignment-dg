@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,20 +11,27 @@ model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  username  String    @unique
+  username  String   @unique
   password  String
   email     String?
   firstName String?
   lastName  String?
+
+  products Product[]
+
+  @@map("user")
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   name        String
   upc         String?
   description String?
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  @@map("product")
 }

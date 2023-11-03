@@ -1,19 +1,21 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, HttpCode, HttpStatus, Req, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards';
 import { UserService } from './user.service';
 
+@ApiTags('user')
 @UseGuards(JwtAuthGuard)
-@ApiCookieAuth()
 @Controller('user')
 export class UserController {
   constructor(
     private userService: UserService,
   ) {}
 
-  @ApiTags('user')
   @Get('profile')
+  @HttpCode(HttpStatus.OK)
   async getProfile(@Req() req) {
-    return this.userService.findOne(req.user.username);
+    const user = await this.userService.findOne(req.user.username);
+    delete user.password;
+    return user;
   }
 }

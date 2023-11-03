@@ -11,9 +11,10 @@ async function bootstrap() {
     .setTitle('Retail Store API')
     .setDescription('Retail Store API')
     .setVersion('1.0')
-    .addCookieAuth('access_token')
+    // .addCookieAuth('access_token')
     .addTag('auth')
-    .addTag('products')
+    .addTag('user')
+    .addTag('product')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -28,4 +29,5 @@ async function bootstrap() {
 
   await app.listen(3000);
 }
+
 bootstrap();

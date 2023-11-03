@@ -8,10 +8,12 @@ export class UserService {
   ) {}
 
   async findOne(username: string): Promise<any> {
-    return this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         username: username,
       },
     });
+    delete user.password
+    return user
   }
 }

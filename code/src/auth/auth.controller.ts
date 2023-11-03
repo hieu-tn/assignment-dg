@@ -18,11 +18,14 @@ export class AuthController {
   async signIn(@Body() dto: CredentialDto, @Res({passthrough: true}) response: Response) {
     const {access_token} = await this.authService.signIn(dto);
 
+    // set cookie to browser automatically
     response.cookie('access_token', access_token, {
       httpOnly: false,
       secure: false,
       sameSite: 'lax',
       expires: new Date(Date.now() + parseInt(this.config.get('TOKEN_LIFETIME_IN_SECONDS')) * 1000),
-    }).send();
+    }).send({
+      access_token,
+    });
   }
 }

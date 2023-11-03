@@ -1,12 +1,14 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProductDto, UpdateProductDto } from './dto/';
 import { PrismaService } from '../prisma/prisma.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ProductCreatedEvent } from './events';
 
 @Injectable()
 export class ProductService {
   constructor(
     private prisma: PrismaService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async createProduct(userId: number, dto: CreateProductDto) {
@@ -16,6 +18,11 @@ export class ProductService {
         ...dto,
       },
     });
+
+    const productCreatedEvent = new ProductCreatedEvent();
+    productCreatedEvent.payload = product;
+    this.eventEmitter.emit('product.created', productCreatedEvent);
+
     return product;
   }
 

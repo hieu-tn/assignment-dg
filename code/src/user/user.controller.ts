@@ -1,7 +1,8 @@
-import { Controller, Get, HttpCode, HttpStatus, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards';
 import { UserService } from './user.service';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('user')
 @UseGuards(JwtAuthGuard)
@@ -11,6 +12,7 @@ export class UserController {
     private userService: UserService,
   ) {}
 
+  @UseInterceptors(CacheInterceptor)
   @Get('profile')
   @HttpCode(HttpStatus.OK)
   async getProfile(@Req() req) {

@@ -4,11 +4,17 @@ import { UserModule } from './user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from './product/product.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 300 * 1000, // milliseconds
+      max: 10, // maximum number of items in cache
     }),
     AuthModule,
     UserModule,

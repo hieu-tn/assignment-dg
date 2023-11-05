@@ -1,9 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query, ParseIntPipe } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards';
-import { Request } from 'express';
 
 @ApiTags('product')
 @UseGuards(JwtAuthGuard)
@@ -17,8 +16,8 @@ export class ProductController {
   }
 
   @Get()
-  findAll(@Req() request) {
-    return this.productService.findProducts(request.user.id);
+  async get(@Req() request, @Query('page', ParseIntPipe) page: number, @Query('itemsPerPage', ParseIntPipe) itemsPerPage: number) {
+    return this.productService.findProducts(request.user.id, page, itemsPerPage);
   }
 
   @Get(':id')

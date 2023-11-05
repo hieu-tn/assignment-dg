@@ -3,6 +3,6 @@ export interface ProductORM {
   name: string;
   upc: string;
   description: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

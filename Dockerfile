@@ -17,6 +17,9 @@ RUN npm ci
 # Bundle app source
 COPY ./code .
 
+# Prisma
+RUN npx prisma generate
+
 # Creates a "dist" folder with the production build
 RUN npm run build
 

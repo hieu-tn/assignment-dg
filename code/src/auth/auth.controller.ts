@@ -13,6 +13,13 @@ export class AuthController {
   ) {}
 
   @ApiTags('auth')
+  @Post('signup')
+  @HttpCode(HttpStatus.CREATED)
+  async signUp(@Body() dto: CredentialDto) {
+    return this.authService.signUp(dto);
+  }
+
+  @ApiTags('auth')
   @Post('signin')
   @HttpCode(HttpStatus.OK)
   async signIn(@Body() dto: CredentialDto, @Res({passthrough: true}) response: Response) {

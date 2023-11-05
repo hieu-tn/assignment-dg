@@ -8,16 +8,15 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  username  String   @unique
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  username  String    @unique
   password  String
   email     String?
   firstName String?
   lastName  String?
-
-  products Product[]
+  products  Product[]
 
   @@map("user")
 }
@@ -29,9 +28,8 @@ model Product {
   name        String
   upc         String?
   description String?
-
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
 
   @@map("product")
 }

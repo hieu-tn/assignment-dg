@@ -44,4 +44,10 @@ export class AuthService {
 
     return {access_token: token};
   }
+
+  async signUp(dto: CredentialDto) {
+    const user = await this.userService.createUser(dto);
+    delete user.password;
+    return user;
+  }
 }

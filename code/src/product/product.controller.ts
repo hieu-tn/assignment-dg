@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query, ParseIntPipe, HttpStatus, HttpCode } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -12,6 +12,9 @@ export class ProductController {
 
   @Post()
   create(@Req() request, @Body() dto: CreateProductDto) {
+    for (let k of Object.keys(dto)) {
+      dto[k] = dto[k].replace('\x00', '');
+    }
     return this.productService.createProduct(request.user.id, dto);
   }
 
@@ -31,6 +34,7 @@ export class ProductController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Req() request, @Param('id') id: string) {
     return this.productService.removeProduct(request.user.id, +id);
   }

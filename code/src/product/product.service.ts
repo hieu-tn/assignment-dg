@@ -29,7 +29,7 @@ export class ProductService {
   async findProducts(userId: number, page: number, itemsPerPage: number) {
     // return default
     if (itemsPerPage == 0 || itemsPerPage < -1 || page <= 0) {
-      return {totalRecords: 0, results: 0}
+      return {totalRecords: 0, results: []}
     }
 
     let countQuery = {

@@ -36,17 +36,17 @@ services:
     networks:
       - dg
 
-  pgadmin:
-    image: dpage/pgadmin4
+  testdb:
+    image: postgres:16.0
     restart: always
-    container_name: dg-pgadmin4
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=pg admin4
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=dg
     ports:
-      - '5050:80'
-    depends_on:
-      - db
+      - '5433:5432'
+    networks:
+      - dg
 
 networks:
   dg:

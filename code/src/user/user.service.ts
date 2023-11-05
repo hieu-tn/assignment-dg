@@ -26,7 +26,8 @@ export class UserService {
    * @param dto
    */
   async createUser(dto: CredentialDto) {
-    // hash password, so human can read it
+    // @TODO: validate credential data
+    // hash password, so human cannot read it
     const password = await argon.hash(dto.password);
     return this.prisma.user.create({
       data: {

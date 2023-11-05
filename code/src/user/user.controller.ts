@@ -12,11 +12,16 @@ export class UserController {
     private userService: UserService,
   ) {}
 
+  /**
+   * Get user profile
+   * @param req
+   */
   @UseInterceptors(CacheInterceptor)
   @Get('profile')
   @HttpCode(HttpStatus.OK)
   async getProfile(@Req() req) {
     const user = await this.userService.findOne(req.user.username);
+    // always hide password
     delete user.password;
     return user;
   }

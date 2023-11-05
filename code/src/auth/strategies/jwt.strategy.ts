@@ -22,6 +22,10 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     return {id: payload.sub, username: payload.username};
   }
 
+  /**
+   * Get access token from cookies
+   * @param req
+   */
   private static extractJWTFromCookie(req: Request): string | null {
     if (req.cookies && req.cookies.access_token) {
       return req.cookies.access_token;

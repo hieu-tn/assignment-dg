@@ -9,6 +9,10 @@ export class UserService {
     private prisma: PrismaService,
   ) {}
 
+  /**
+   * Look up user by username
+   * @param username
+   */
   async findOne(username: string): Promise<any> {
     return this.prisma.user.findUnique({
       where: {
@@ -17,7 +21,12 @@ export class UserService {
     });
   }
 
+  /**
+   * Create user
+   * @param dto
+   */
   async createUser(dto: CredentialDto) {
+    // hash password, so human can read it
     const password = await argon.hash(dto.password);
     return this.prisma.user.create({
       data: {

@@ -12,6 +12,10 @@ export class AuthController {
     private authService: AuthService,
   ) {}
 
+  /**
+   * Sign up
+   * @param dto
+   */
   @ApiTags('auth')
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
@@ -19,6 +23,11 @@ export class AuthController {
     return this.authService.signUp(dto);
   }
 
+  /**
+   * Sign in
+   * @param dto
+   * @param response
+   */
   @ApiTags('auth')
   @Post('signin')
   @HttpCode(HttpStatus.OK)
@@ -26,6 +35,8 @@ export class AuthController {
     const {access_token} = await this.authService.signIn(dto);
 
     // set cookie to browser automatically
+    // response access token (demo purpose)
+    // should remove access_token in response in production
     response.cookie('access_token', access_token, {
       httpOnly: false,
       secure: false,

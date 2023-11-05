@@ -11,7 +11,16 @@ export class ProductService {
     private eventEmitter: EventEmitter2,
   ) {}
 
+  /**
+   * Create product belongs to user
+   * @param userId
+   * @param dto
+   */
   async createProduct(userId: number, dto: CreateProductDto) {
+    for (let k of Object.keys(dto)) {
+      // remove null character to avoid 0x00 issue
+      dto[k] = dto[k].replace('\x00', '');
+    }
     const product = await this.prisma.product.create({
       data: {
         userId,
@@ -19,6 +28,7 @@ export class ProductService {
       },
     });
 
+    // trigger product.created event
     const productCreatedEvent = new ProductCreatedEvent();
     productCreatedEvent.payload = product;
     this.eventEmitter.emit('product.created', productCreatedEvent);
@@ -26,6 +36,12 @@ export class ProductService {
     return product;
   }
 
+  /**
+   * Get products belong to user
+   * @param userId
+   * @param page
+   * @param itemsPerPage
+   */
   async findProducts(userId: number, page: number, itemsPerPage: number) {
     // return default
     if (itemsPerPage == 0 || itemsPerPage < -1 || page <= 0) {
@@ -38,6 +54,8 @@ export class ProductService {
       },
     };
     let query = {...countQuery};
+    // order from oldest to latest
+    // should make this as a filter option
     query['orderBy'] = {
       createdAt: 'asc',
     };
@@ -57,6 +75,11 @@ export class ProductService {
     return {totalRecords, results};
   }
 
+  /**
+   * Find product
+   * @param userId
+   * @param id
+   */
   async findProduct(userId: number, id: number) {
     const product = await this.prisma.product.findUnique({
       where: {
@@ -71,6 +94,12 @@ export class ProductService {
     return product;
   }
 
+  /**
+   * Update product
+   * @param userId
+   * @param id
+   * @param dto
+   */
   async updateProduct(userId: number, id: number, dto: UpdateProductDto) {
     // get the product by id
     const product = await this.prisma.product.findUnique({
@@ -93,6 +122,11 @@ export class ProductService {
     });
   }
 
+  /**
+   * Remove product
+   * @param userId
+   * @param id
+   */
   async removeProduct(userId: number, id: number) {
     const product = await this.prisma.product.findUnique({
       where: {

@@ -16,13 +16,21 @@ A retail store API that exposes endpoints to retrieve products and operate all b
 # development
 $ docker-compose up --build
 
-# The app is listening on port 3000, the url is localhost:3000
-# Right now, only swagger link is publicly accessible at http://localhost:3000/api
+# the app is listening on port 3000, the url is localhost:3000
+# right now, only swagger link is publicly accessible at http://localhost:3000/api
+
+# database watcher on local
+# it needs to turn database server up (via docker-compose) before you can connect to watcher url
+$ cd code
+$ npx prisma studio   # http://localhost:5555
 ```
 
 ## Test
 
 ```bash
+# turn up test database server
+$ docker-compose up testdb
+
 # e2e tests
 $ cd code
 $ npm run test:e2e

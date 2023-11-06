@@ -15,6 +15,9 @@ A retail store API that exposes endpoints to retrieve products and operate all b
 ```bash
 # development
 $ docker-compose up --build
+
+# The app is listening on port 3000, the url is localhost:3000
+# Right now, only swagger link is publicly accessible at http://localhost:3000/api
 ```
 
 ## Test
@@ -27,7 +30,7 @@ $ npm run test:e2e
 
 ## Demo
 
-[![Demo](https://github.com/hieu-tn/interview-danihelgroup/blob/master/docs/Swagger-UI.gif)](https://github.com/hieu-tn/interview-danihelgroup/blob/master/docs/Swagger-UI.webm)
+![Demo](https://github.com/hieu-tn/interview-danihelgroup/blob/master/docs/Swagger-UI.gif)
 
 ## Done
 

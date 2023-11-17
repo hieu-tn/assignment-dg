@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from './product/product.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     }),
     CacheModule.register({
       isGlobal: true,
-      ttl: 300 * 1000, // milliseconds
+      ttl: 30 * 1000, // milliseconds
       max: 10, // maximum number of items in cache
     }),
     EventEmitterModule.forRoot(),
@@ -22,6 +23,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     UserModule,
     PrismaModule,
     ProductModule,
+    CommonModule,
   ],
 })
 export class AppModule {}
